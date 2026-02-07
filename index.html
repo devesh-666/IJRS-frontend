@@ -2946,6 +2946,28 @@
     </div>
 
     <script>
+function submitPaper() {
+  fetch("http://localhost:8081/wp-json/wp/v2/posts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Basic BASE64_USERNAME_PASSWORD"
+    },
+    body: JSON.stringify({
+      title: "AI in Healthcare",
+      content: "This paper discusses AI usage in medical field",
+      status: "publish"
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log(data);
+    alert("Submitted to WordPress!");
+  })
+  .catch(err => console.error(err));
+}
+</script>
+    <script>
         // Theme Management
         const themeManager = {
             init() {
