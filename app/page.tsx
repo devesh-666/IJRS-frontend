@@ -3,13 +3,15 @@
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [posts, setPosts] = useState([]);
-  const [error, setError] = useState(null);
+  const [posts, setPosts] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_WP_API}/wp/v2/posts`)
       .then((res) => {
-        if (!res.ok) throw new Error("API failed");
+        if (!res.ok) {
+          throw new Error("Failed to fetch posts");
+        }
         return res.json();
       })
       .then((data) => setPosts(data))
@@ -20,15 +22,15 @@ export default function Home() {
   if (!posts.length) return <p>Loading...</p>;
 
   return (
-    <div>
+    <main>
       <h1>Blog</h1>
       {posts.map((post) => (
-        <div key={post.id}>
+        <article key={post.id}>
           <h2
             dangerouslySetInnerHTML={{ __html: post.title.rendered }}
           />
-        </div>
+        </article>
       ))}
-    </div>
+    </main>
   );
 }
